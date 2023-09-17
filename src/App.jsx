@@ -33,6 +33,6 @@ const App = () => {
   );
 };
 
-export const BASE_URL = "https://contact-management-backend.vercel.app";
+export const BASE_URL = "http://localhost:4000";
 
 export default App;
