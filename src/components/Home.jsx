@@ -6,12 +6,18 @@ import { Link } from "react-router-dom";
 import { appContext } from "../app/context";
 import { actionTypes } from "../app/reducer";
 import Loader from "./Loader";
-import { TableToExcelReact } from "table-to-excel-react";
-
+import exportFromJSON from "export-from-json";
 
 const Home = () => {
   const [{ isLoading, contacts }, dispatch] = useContext(appContext);
 
+  const handleDownloadClick = (e) => {
+    e.preventDefault();
+    const data = contacts ? contacts : [];
+    const fileName = "Contact Details";
+    const exportType = exportFromJSON.types.csv;
+    exportFromJSON({ data, fileName, exportType });
+  };
   const fetchContacts = async () => {
     dispatch({
       type: actionTypes.fetchContacts,
@@ -60,15 +66,12 @@ const Home = () => {
   return (
     <main className="w-full min-h-screen bg-gray-200 py-5 px-10">
       <div className="w-64 block mx-auto">
-        <TableToExcelReact
-          table="table-to-xls"
-          fileName="contactDetails"
-          sheet="contacts"
+        <button
+          className="w-fit px-3 h-10 rounded-lg bg-yellow-400 text-white font-medium cursor-pointer block mx-auto my-5 hover:bg-yellow-500 transition-all duration-150"
+          onClick={handleDownloadClick}
         >
-          <button className="w-fit px-3 h-10 rounded-lg bg-yellow-400 text-white font-medium cursor-pointer block mx-auto my-5 hover:bg-yellow-500 transition-all duration-150">
-            Download Contacts
-          </button>
-        </TableToExcelReact>
+          Download Contacts
+        </button>
       </div>
       <table id="table-to-xls" className="w-full border border-gray-700">
         <tr className="bg-yellow-400 w-full h-10 text-left">
